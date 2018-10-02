@@ -51,16 +51,21 @@ def valid_user():
     if len(recode) < 3 or len(recode) > 20:
         return render_template('index.html', re_password_error="Passwords must be between 3 and 20 characters", username= user, email= mail)
 
-    if '.' not in mail or '@' not in mail:
-        return render_template('index.html', email_error="Not a valid email address", username= user, email= mail)
     
+    
+    if len(mail) >= 1:
+        if ' ' in mail:
+            return render_template('index.html', email_error="Not a valid email address", username= user, email= mail)
 
-    if ' ' in mail:
-        return render_template('index.html', email_error="Not a valid email address", username= user, email= mail)
+        if len(mail) < 3 or len(mail) > 20:
+            return render_template('index.html', email_error="Email address must be between 3 and 20 characters", username= user, email= mail)
 
-    if len(mail) < 3 or len(mail) > 20:
-        return render_template('index.html', email_error="Email address must be between 3 and 20 characters", username= user, email= mail)
+        if '.' not in mail or '@' not in mail:
+            return render_template('index.html', email_error="Not a valid email address", username= user, email= mail)
 
+        else:
+
+            return redirect('/validated?user={}'.format(user))
 
     else:
 
